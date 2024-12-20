@@ -23,6 +23,13 @@ public class CropService {
     public List<Crop> getCropsByFarmerId(String farmerId) {
         return cropRepository.findByFarmerId(farmerId);
     }
+    
+    //Get crop by id
+    public Crop getCropById(String id) {
+		// TODO Auto-generated method stub
+		return cropRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Crop not found with ID: " + id));
+	}
 
     // Get all available crops
     public List<Crop> getAvailableCrops() {
@@ -56,4 +63,6 @@ public class CropService {
             throw new IllegalArgumentException("Crop not found with ID: " + id);
         }
     }
+
+	
 }

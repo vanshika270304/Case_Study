@@ -30,9 +30,15 @@ public class CropController {
     }
 
     // Get all available crops
-    @GetMapping
+    @GetMapping("/available")
     public ResponseEntity<List<Crop>> getAvailableCrops() {
         return ResponseEntity.ok(cropService.getAvailableCrops());
+    }
+    
+    //Get crop by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Crop> getCropById(@PathVariable String id) {
+        return ResponseEntity.ok(cropService.getCropById(id));
     }
 
     // Update a crop

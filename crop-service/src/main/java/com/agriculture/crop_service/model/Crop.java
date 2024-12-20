@@ -1,6 +1,9 @@
 package com.agriculture.crop_service.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.*;
@@ -9,6 +12,8 @@ import java.time.LocalDate;
 
 @Data
 @Document
+@Getter
+@Setter
 public class Crop {
     @Id
     private String id;
