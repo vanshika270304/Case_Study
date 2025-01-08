@@ -3,6 +3,8 @@ package com.agriculture.order_service.feign;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.agriculture.crop_service.model.Crop;
 
@@ -16,4 +18,7 @@ public interface CropServiceClient {
 
 	 @GetMapping("/{id}")
 	 Crop getCropById(@PathVariable String id);
+	 
+	 @PutMapping("{id}")
+	 void updateCrop(@PathVariable String id, @RequestBody Crop crop);
 }

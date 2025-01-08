@@ -26,6 +26,8 @@ public class Crop {
 
     @Min(value = 1, message = "Quantity must be greater than 0")
     private int quantity;
+    
+    private int reservedQuantity = 0;
 
     @DecimalMin(value = "0.1", message = "Price per unit must be greater than 0")
     private double pricePerUnit;

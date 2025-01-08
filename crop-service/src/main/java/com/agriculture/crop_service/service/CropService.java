@@ -45,6 +45,7 @@ public class CropService {
             existingCrop.setName(updatedCrop.getName());
             existingCrop.setQuantity(updatedCrop.getQuantity());
             existingCrop.setPricePerUnit(updatedCrop.getPricePerUnit());
+            existingCrop.setReservedQuantity(updatedCrop.getReservedQuantity());
             existingCrop.setSoilType(updatedCrop.getSoilType());
             existingCrop.setDateOfHarvest(updatedCrop.getDateOfHarvest());
             existingCrop.setStatus(updatedCrop.getStatus());

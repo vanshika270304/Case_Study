@@ -1,0 +1,33 @@
+@echo off
+echo Starting all services sequentially...
+
+:: Start Eureka Service
+echo Starting Eureka Server...
+start cmd /k "cd eureka-server && mvn spring-boot:run"
+echo Waiting for Eureka Server to start...
+timeout /t 30 >nul
+
+:: Start API Gateway
+echo Starting API Gateway...
+start cmd /k "cd api-gateway && mvn spring-boot:run"
+echo Waiting for API Gateway to start...
+timeout /t 20 >nul
+
+:: Start Crop Service
+echo Starting Crop Service...
+start cmd /k "cd crop-service && mvn spring-boot:run"
+echo Waiting for Crop Service to start...
+timeout /t 20 >nul
+
+:: Start User Service
+echo Starting User Service...
+start cmd /k "cd user-service && mvn spring-boot:run"
+echo Waiting for User Service to start...
+timeout /t 20 >nul
+
+:: Start Order Service
+echo Starting Order Service...
+start cmd /k "cd order-service && mvn spring-boot:run"
+echo All services have started successfully.
+
+pause
