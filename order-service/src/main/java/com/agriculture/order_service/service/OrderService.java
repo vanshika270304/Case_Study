@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.agriculture.crop_service.model.Crop;
+import com.agriculture.order_service.model.Crop;
 //import com.agriculture.crop_service.repository.CropRepository;
 import com.agriculture.order_service.feign.CropServiceClient;
 import com.agriculture.order_service.model.Order;
@@ -68,7 +68,7 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
 
         // Handle status change logic
-        if ("Confirmed".equalsIgnoreCase(status)) {
+        if ("Success".equalsIgnoreCase(status)) {
             // Fetch crop details from Crop Service
             Crop crop = cropFeignClient.getCropById(order.getCropId());
             

@@ -11,7 +11,9 @@ import com.agriculture.user_service.service.model.Dealer;
 import com.agriculture.user_service.service.model.Farmer;
 import com.agriculture.user_service.service.model.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,9 +30,6 @@ public class UserService {
 //    private BCryptPasswordEncoder passwordEncoder;
     
     public String registerUser(UserRegistrationRequest registrationRequest) {
-        if (!registrationRequest.getPassword().equals(registrationRequest.getConfirmPassword())) {
-            throw new IllegalArgumentException("Passwords do not match!");
-        }
 
         // Proceed with saving the user
         User user = new User();
@@ -57,17 +56,35 @@ public class UserService {
 
         return "User registered successfully!";
     }
-
-    public Optional<User> loginUser(String email, String password) {
+    
+    public Map<String, Object> loginUser(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            // Assuming passwords are stored as plain text (not recommended, consider hashing instead)
             if (user.get().getPassword().equals(password)) {
-                return user;
+                User loggedInUser = user.get();
+                
+                Map<String, Object> response = new HashMap<>();
+                response.put("id", loggedInUser.getId());
+                response.put("name", loggedInUser.getName());
+                response.put("number", loggedInUser.getNumber());
+                response.put("email", loggedInUser.getEmail());
+                response.put("role", loggedInUser.getRole());
+
+                // Fetch farmerId or dealerId and map it to roleId
+                if ("farmer".equalsIgnoreCase(loggedInUser.getRole())) {
+                    Farmer farmer = farmerRepository.findByUserId(loggedInUser.getId());
+                    response.put("roleId", farmer.getId());
+                } else if ("dealer".equalsIgnoreCase(loggedInUser.getRole())) {
+                    Dealer dealer = dealerRepository.findByUserId(loggedInUser.getId());
+                    response.put("roleId", dealer.getId());
+                }
+
+                return response;
             }
         }
-        return Optional.empty();
+        return null; // Invalid credentials
     }
+
     
     //view profile
     public Optional<User> getUserById(String userId) {
@@ -91,6 +108,24 @@ public class UserService {
     public List<Farmer> getAllFarmers() {
         return farmerRepository.findAll(); // Assuming you have a FarmerRepository to fetch data
     }
+    
+    public Map<String, String> getUserIdByFarmerId(String farmerId) {
+        Farmer farmer = farmerRepository.findById(farmerId)
+                .orElseThrow(() -> new IllegalArgumentException("Farmer not found."));
+        Map<String, String> response = new HashMap<>();
+        response.put("userId", farmer.getUser().getId());
+        return response;
+    }
+    
+    public Map<String, String> getUserIdByDealerId(String dealerId) {
+        Dealer dealer = dealerRepository.findById(dealerId)
+                .orElseThrow(() -> new IllegalArgumentException("Dealer not found."));
+        Map<String, String> response = new HashMap<>();
+        response.put("userId", dealer.getUser().getId());
+        return response;
+    }
+
+
 
 }
 

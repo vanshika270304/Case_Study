@@ -2,6 +2,7 @@ package com.agriculture.user_service.controller;
 
 import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,28 +33,30 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest registrationRequest) {
         try {
             // Pass both password and confirmPassword to the service for validation
-            return ResponseEntity.ok(userService.registerUser(registrationRequest));
+        	Map<String, String> response = new HashMap<>();
+            response.put("message", userService.registerUser(registrationRequest));
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginRequest) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Map<String, String> loginRequest) {
         String email = loginRequest.get("email");
         String password = loginRequest.get("password");
 
-        if (email == null || password == null) {
-            return ResponseEntity.badRequest().body("Email and password must be provided");
-        }
-        
-        Optional<User> user = userService.loginUser(email, password);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+        Map<String, Object> response = userService.loginUser(email, password);
+        if (response != null) {
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", "error");
+            errorResponse.put("message", "Invalid credentials");
+            return ResponseEntity.status(401).body(errorResponse);
         }
     }
+
     
     @GetMapping("/profile/{id}")
     public ResponseEntity<?> getUserProfile(@PathVariable String id) {
@@ -82,6 +85,17 @@ public class UserController {
         }
         return ResponseEntity.ok(farmers); // Return 200 OK with farmers data
     }
-
     
+    @GetMapping("/farmer/{farmerId}")
+    public ResponseEntity<Map<String, String>> getUserIdByFarmerId(@PathVariable String farmerId) {
+        Map<String, String> response = userService.getUserIdByFarmerId(farmerId);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/dealer/{dealerId}")
+    public ResponseEntity<Map<String, String>> getUserIdByDealerId(@PathVariable String dealerId) {
+        Map<String, String> response = userService.getUserIdByDealerId(dealerId);
+        return ResponseEntity.ok(response);
+    }
+
 }

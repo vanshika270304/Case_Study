@@ -28,6 +28,12 @@ timeout /t 20 >nul
 :: Start Order Service
 echo Starting Order Service...
 start cmd /k "cd order-service && mvn spring-boot:run"
+echo Waiting for Order Service to start...
+timeout /t 20 >nul
+
+:: Start Payment Service
+echo Starting Payment Service...
+start cmd /k "cd payment-service && mvn spring-boot:run"
 echo All services have started successfully.
 
 pause

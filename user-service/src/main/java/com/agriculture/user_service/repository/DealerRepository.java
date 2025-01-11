@@ -9,4 +9,5 @@ import com.agriculture.user_service.service.model.Dealer;
 //}
 
 public interface DealerRepository extends MongoRepository<Dealer, String> {
+	Dealer findByUserId(String userId);
 }

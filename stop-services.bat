@@ -2,7 +2,7 @@
 echo Stopping all Spring Boot servers...
 
 :: Specify the ports of the services here
-set PORTS=8761 8080 8081 8082 8083
+set PORTS=8761 8080 8081 8082 8083 8084
 
 for %%P in (%PORTS%) do (
     echo Stopping server on port %%P...

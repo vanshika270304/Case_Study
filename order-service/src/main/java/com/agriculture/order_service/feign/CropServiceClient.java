@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.agriculture.crop_service.model.Crop;
+import com.agriculture.order_service.model.Crop;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public interface CropServiceClient {
 	 @GetMapping("/{id}")
 	 Crop getCropById(@PathVariable String id);
 	 
-	 @PutMapping("{id}")
+	 @PutMapping("/{id}")
 	 void updateCrop(@PathVariable String id, @RequestBody Crop crop);
 }

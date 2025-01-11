@@ -10,4 +10,5 @@ import com.agriculture.user_service.service.model.Farmer;
 //}
 
 public interface FarmerRepository extends MongoRepository<Farmer, String> {
+	Farmer findByUserId(String userId);
 }
